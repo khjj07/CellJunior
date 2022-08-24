@@ -20,13 +20,23 @@ public class KeyEventStruct
     public KeyCode Key;
     public InputKind Kind;
     public UnityEvent InputEvent;
+    public KeyEventStruct(KeyCode new_key,InputKind new_kind, UnityEvent new_unityEvent)
+    {
+        Key=new_key;
+        Kind=new_kind;
+        InputEvent=new_unityEvent;
+        
+    }
 }
 public class KeyInputModule : MonoBehaviour
 {
     public List<KeyEventStruct> InputList = new List<KeyEventStruct>();
+    public ReactiveCollection<KeyEventStruct> InputCollection = new ReactiveCollection<KeyEventStruct>();
     // Start is called before the first frame update
     void Start()
     {
+        InputCollection.ObserveAdd().Subscribe(x => CreateInputStream(x.Value));
+
         foreach (var k in InputList)
             CreateInputStream(k);
     }

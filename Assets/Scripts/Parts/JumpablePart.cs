@@ -1,15 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UniRx;
 
-public class Core : Part
+public class JumpablePart : Part
 {
-
-    public Core(PartType type)
-    {
-        this.Type = type;
-    }
-
+    public float JumpPower = 5f;
+    public KeyCode JumpKey = KeyCode.Space;
+    public Subject<Vector2> Jump = new Subject<Vector2>();
     // Start is called before the first frame update
     void Start()
     {

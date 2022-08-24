@@ -1,48 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
-using System.Threading;
-using System.Threading.Tasks;
 using DG.Tweening;
-using System;
 
-using UniRx.Triggers;
-
-public class Arm : MonoBehaviour
+public enum ArmAttackType
 {
+    MeleeAttack,
+    RangedAttack
+}
+
+public class Arm : JumpablePart
+{
+
+    public Arm(PartType type)
+    {
+        this.Type = type;
+    }
+
+    //มกวม
     [SerializeField]
     private float ArmOutSec=1;
-    private float ArmOutRange = 0.5f;
+    [SerializeField]
     private float ArmOutAnimateDuration = 0.3f;
-    public float JumpPower = 5f;
-    public Vector3 Direction = Vector3.up;
-    public Subject<Vector3> Contact = new Subject<Vector3>();
+    public float ArmOutRange = 0.5f;
+
     private bool Out = false;
 
-
-   
     public void ArmIn()
     {
         Out = false;
-        
         transform.DOLocalMoveX(transform.localPosition.x-ArmOutRange, ArmOutAnimateDuration);
     }
+
     public void ArmOut()
     {
         Out = true;
-        transform.DOLocalMoveX(transform.localPosition.x+ArmOutRange, ArmOutAnimateDuration)
+        transform.DOLocalMoveX(transform.localPosition.x + ArmOutRange, ArmOutAnimateDuration)
             .OnComplete(() => { ArmIn(); });
+    }
 
+    public void TryJump()
+    {
+        ArmOut();
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1f);
         if (hit)
         {
             Debug.DrawRay(transform.position, transform.up * hit.distance, Color.red);
             if (hit.collider.tag == "Ground")
             {
-                Contact.OnNext(-hit.normal);
+                Jump.OnNext(-hit.normal);
             }
-                
         }
         else
         {
@@ -56,7 +63,10 @@ public class Arm : MonoBehaviour
         RaycastHit2D hit= Physics2D.Raycast(transform.position, transform.up, 1f);
         if (hit)
         {
-            Debug.Log("Jumpable");
+            if (hit.collider.tag == "Ground")
+            {
+                Debug.Log("Jumpable");
+            }
             Debug.DrawRay(transform.position, transform.up * hit.distance, Color.red);
         }
         else

@@ -2,7 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IJumpable
+public class RaserArm : Arm, IAttackable
 {
-    void Jump(Vector2 direction);
+   public void Attack()
+    {
+
+    }
 }
