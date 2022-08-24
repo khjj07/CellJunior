@@ -25,8 +25,10 @@ public class TitleManager : MonoBehaviour
 
     public void GoGameScene()
     {
-        if (StartBtnActive = true)
-        SceneManager.LoadScene(1);
+        if (StartBtnActive == true)
+        {
+            SceneManager.LoadScene(1);
+        }
         //if(ExitBtnActive = true)
         //GameManager 에서 게임 종료 기능 호출    
 
@@ -39,7 +41,7 @@ public class TitleManager : MonoBehaviour
         GameStart.SetActive(false);
         GameStartSlt.SetActive(true);
 
-        if(ExitBtnActive = true)
+        if(ExitBtnActive == true)
         {
             Exit.SetActive(true);
             ExitSlt.SetActive(false);
@@ -53,7 +55,7 @@ public class TitleManager : MonoBehaviour
     {
         Exit.SetActive(false);
         ExitSlt.SetActive(true);
-        if (StartBtnActive = true)
+        if (StartBtnActive == true)
         {
             GameStart.SetActive(true);
             GameStartSlt.SetActive(false);
