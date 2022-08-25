@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b4725c2340bd45f46aab69f7beff309f
+guid: bf5ae9066603d2b479f653138216d33f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -47,7 +47,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 250
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -116,13 +116,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Spear_0
+      name: Box_Close_0
       rect:
         serializedVersion: 2
-        x: 278
-        y: 31
-        width: 27
-        height: 327
+        x: 154
+        y: 148
+        width: 163
+        height: 172
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,8 +130,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c4e3b910f99f6f4798040360ddf035c
-      internalID: 858145650
+      spriteID: 606d7e00c0c87ee4c80b54bfb9848dd4
+      internalID: -1139137467
       vertices: []
       indices: 
       edges: []
@@ -147,7 +147,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Spear_0: 858145650
+      Box_Close_0: -1139137467
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
