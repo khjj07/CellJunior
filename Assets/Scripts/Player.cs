@@ -6,7 +6,6 @@ using System;
 using UniRx;
 using UnityEngine.Events;
 using UniRx.Triggers;
-using UnityEditor.Experimental.GraphView;
 
 public class Player : Singleton<Player>, IMovable
 {
@@ -49,7 +48,8 @@ public class Player : Singleton<Player>, IMovable
          newPart = instance.GetComponent<Part>();
         if (newPart.Type == PartType.Arm )
         {
-            instance.transform.localPosition = new Vector3(0.7f, 0, 0);
+            instance.transform.rotation = Quaternion.Euler(Vector3.zero);
+            instance.transform.localPosition = new Vector3(0, 0, 0);
             BothArm = (Arm)newPart;
         }
         else if (newPart.Type == PartType.Leg)
@@ -78,8 +78,10 @@ public class Player : Singleton<Player>, IMovable
 
     public void Jump(Vector2 direction)
     {
+        
         JumpablePart part = BothLeg ? BothLeg : BothArm ? BothArm : null;
-        if(part)
+        Debug.Log(direction);
+        if (part)
             GetComponent<Rigidbody2D>().AddForce(direction* part.JumpPower, ForceMode2D.Impulse);
     }
 

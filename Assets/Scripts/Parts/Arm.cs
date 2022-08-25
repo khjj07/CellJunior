@@ -40,42 +40,21 @@ public class Arm : JumpablePart
     public void TryJump()
     {
         ArmOut();
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, 1f);
-        if (hit)
+        
+        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, transform.right, 2f);
+        foreach (var i in hit)
         {
-            Debug.DrawRay(transform.position, transform.up * hit.distance, Color.red);
-            if (hit.collider.tag == "Ground")
+            if (i.collider.tag == "Ground")
             {
-                Jump.OnNext(-hit.normal);
+                var dir = Vector3.Normalize(i.normal - new Vector2(transform.right.x, transform.right.y));
+                Jump.OnNext(dir);
+                break;
             }
+                
         }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.up * 1000f, Color.red);
-        }
-
-
     }
     public virtual void Start()
     {
         Type = PartType.Arm;
     }
-    public void Update()
-    {
-        RaycastHit2D hit= Physics2D.Raycast(transform.position, transform.up, 1f);
-        if (hit)
-        {
-            if (hit.collider.tag == "Ground")
-            {
-                Debug.Log("Jumpable");
-            }
-            Debug.DrawRay(transform.position, transform.up * hit.distance, Color.red);
-        }
-        else
-        {
-            Debug.DrawRay(transform.position, transform.up * 1000f, Color.red);
-        }
-    }
-
-  
 }
