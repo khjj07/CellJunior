@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class RaserArm : Arm, IAttackable
 {
-   public void Attack()
+    public override void Start()
+    {
+        AttackType = ArmAttackType.RangedAttack;
+    }
+    public void Attack()
     {
 
     }

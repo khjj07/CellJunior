@@ -5,10 +5,12 @@ using UnityEngine;
 public class BulletArm : Arm,IAttackable
 {
     //АјАн
-    public ArmAttackType ArmType = ArmAttackType.RangedAttack;
     public Projectile Bullet;
-
-    public void Attack()
+    public override void Start()
+    {
+        AttackType = ArmAttackType.RangedAttack;
+    }
+    public override void Attack()
     {
 
     }

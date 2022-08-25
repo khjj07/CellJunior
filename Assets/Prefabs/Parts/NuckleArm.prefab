@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2324911735792679019}
-  - component: {fileID: 3446106159475582903}
-  - component: {fileID: -1419141393544036702}
+  - component: {fileID: -737410351487900046}
+  - component: {fileID: -1133899995641568196}
   m_Layer: 0
-  m_Name: DaggerArm
+  m_Name: NuckleArm
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3446106159475582903
+--- !u!114 &-737410351487900046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53,8 +53,8 @@ MonoBehaviour:
   ArmOutSec: 1
   ArmOutAnimateDuration: 0.3
   ArmOutRange: 0.5
-  AttackAnimation: DaggerArm
---- !u!95 &-1419141393544036702
+  AttackAnimation: NuckleArm
+--- !u!95 &-1133899995641568196
 Animator:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ Animator:
   m_GameObject: {fileID: 2324911735792679018}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 869f013017dad9440a298d7ac3078419, type: 2}
+  m_Controller: {fileID: 9100000, guid: a6da5e78c9b578b47bc5d2569c80109d, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -84,10 +84,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6754476509679044998}
   - component: {fileID: 5083864163415402448}
-  - component: {fileID: 950951913404115830}
+  - component: {fileID: 3233920373054265433}
   m_Layer: 0
-  m_Name: Dagger
-  m_TagString: Weapon
+  m_Name: Nuckle
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,14 +99,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3704167294915232703}
-  m_LocalRotation: {x: -0, y: -0, z: 0.6427876, w: 0.76604444}
-  m_LocalPosition: {x: 0.37600023, y: -0.806, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.044843823, w: 0.998994}
+  m_LocalPosition: {x: -0.093, y: -0.387, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3695312158579638910}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 80}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.14}
 --- !u!212 &5083864163415402448
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -147,8 +147,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 668d3a396c3f1854e8c62c60e70629fa, type: 3}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: a4098db63c854de42bc07d07fd8756f9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0
@@ -159,7 +159,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!61 &950951913404115830
+--- !u!61 &3233920373054265433
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -172,7 +172,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.031798802, y: -0.33042645}
+  m_Offset: {x: 0.01201725, y: -0.25583723}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -183,7 +183,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4202211, y: 1.097219}
+  m_Size: {x: 0.4904194, y: 0.55417734}
   m_EdgeRadius: 0
 --- !u!1 &5666901307652869342
 GameObject:

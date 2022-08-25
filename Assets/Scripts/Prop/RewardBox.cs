@@ -12,4 +12,8 @@ public class RewardBox : MonoBehaviour
         Destroy(gameObject);
         Open.Invoke();
     }
+    public void Test()
+    {
+        Debug.Log("test");
+    }
 }

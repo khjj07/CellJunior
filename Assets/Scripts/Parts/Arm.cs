@@ -17,9 +17,13 @@ public class Arm : JumpablePart
     [SerializeField]
     private float ArmOutAnimateDuration = 0.3f;
     public float ArmOutRange = 0.5f;
-
+    protected ArmAttackType AttackType;
     private bool Out = false;
 
+    public virtual void Attack()
+    {
+
+    }
     public void ArmIn()
     {
         Out = false;
@@ -52,7 +56,7 @@ public class Arm : JumpablePart
 
 
     }
-    public void Start()
+    public virtual void Start()
     {
         Type = PartType.Arm;
     }
