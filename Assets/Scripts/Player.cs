@@ -13,7 +13,7 @@ public class Player : Singleton<Player>, IMovable
 
     //´É·ÂÄ¡
     public int MaxHP = 5;
-    private int HP = 5;
+    public ReactiveProperty<int> HP;
     public float Speed = 5f;
     public float RollSpeed = 3f;
     private bool Movable = true;
@@ -85,7 +85,6 @@ public class Player : Singleton<Player>, IMovable
         JumpablePart part = BothLeg ? BothLeg : LeftArm ? LeftArm : null;
         if(part)
             GetComponent<Rigidbody2D>().AddForce(direction* part.JumpPower, ForceMode2D.Impulse);
-        Debug.Log(direction);
     }
 
     public void Roll(int direction)
@@ -152,15 +151,14 @@ public class Player : Singleton<Player>, IMovable
     }
     public void Damaged(int dmg)
     {
-        Debug.Log("Hit");
-        HP-=dmg;
-        HP = HP < 0 ? HP : 0;
+        HP.Value-=dmg;
+        HP.Value = HP.Value > 0 ? HP.Value : 0;
         StartCoroutine(InvincibilityTime());
     }
     void Start()
     {
         Initialize();
-        HP = MaxHP;
+        HP.Value = MaxHP;
         Hit = new Subject<int>();
         Hit.Where(_ => !(Invincibility))
            .Subscribe(x=>Damaged(x));

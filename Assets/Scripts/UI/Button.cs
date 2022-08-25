@@ -1,23 +1,32 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
-using DG.Tweening;
 
-public class RewardSkip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Button : MonoBehaviour,IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler
 {
-    Sequence ScaleSquence;
-  
+    private Sequence ScaleSquence;
+    public UnityEvent ClickEvent;
     private void Start()
     {
-       ScaleSquence = DOTween.Sequence();
+        ScaleSquence = DOTween.Sequence();
     }
     void OnEnable()
     {
         ScaleSquence.Restart();
     }
 
-    
+    public void OnPointerDown(PointerEventData pointerEventData)
+    {
+        ClickEvent.Invoke();
+        ScaleSquence.Kill();
+        ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f));
+        IngameStateManager.instance.Change(null);
+    }
+
+
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
         ScaleSquence.Kill();
@@ -29,5 +38,5 @@ public class RewardSkip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         ScaleSquence.Kill();
         ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f));
-    }   
+    }
 }
