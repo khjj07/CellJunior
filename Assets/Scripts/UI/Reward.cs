@@ -6,7 +6,7 @@ using DG.Tweening;
 using UniRx;
 using UnityEngine.UI;
 
-public class Reward : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class Reward : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     public Part RewardPart;
     public KeyCode InteractKey;
@@ -18,13 +18,23 @@ public class Reward : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     .SetLoops(-1, LoopType.Yoyo);
     }
 
-    public void OnPointerEnter(PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        ExplainPanel.instance.Show();
+        ScaleSquence.Kill();
+        ScaleSquence.Append(ExplainPanel.instance.transform.DOScale(new Vector3(1f, 1f, 1f), 0.01f));
     }
-    public void OnPointerExit(PointerEventData eventData)
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
-        ExplainPanel.instance.Hide();
+        ScaleSquence.Kill();
+        ScaleSquence.Append(ExplainPanel.instance.transform.DOScale(Vector3.zero, 0.01f));
+    }
+
+    //Detect when Cursor leaves the GameObject
+    public void OnPointerExit(PointerEventData pointerEventData)
+    {
+
+        ScaleSquence.Kill();
+        ScaleSquence.Append(ExplainPanel.instance.transform.DOScale(Vector3.zero, 0.1f));
     }
 
     public void Update()

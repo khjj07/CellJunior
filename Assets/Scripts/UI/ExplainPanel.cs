@@ -6,7 +6,7 @@ using UniRx;
 
 public class ExplainPanel : Singleton<ExplainPanel>
 {
-    public float Offset = 160f;
+    private float Offset = 200f;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,7 +14,7 @@ public class ExplainPanel : Singleton<ExplainPanel>
             .Where(_ =>gameObject.activeSelf)
             .Subscribe(_ =>transform.position=Input.mousePosition-new Vector3(Offset, Offset,0))
             .AddTo(gameObject);
-        Hide();
+        transform.localScale = Vector3.zero;
     }
     public void Show()
     {
