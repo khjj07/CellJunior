@@ -9,8 +9,19 @@ public class Enemy : MonoBehaviour
     public float Speed=3f;
     public List<Point> PointList = new List<Point>();
     public Queue<Point> PointQueue=new Queue<Point>();
+    public Transform Root;
     // Start is called before the first frame update
     
+    public void DestoryAll()
+    {
+        var allChildren = Root.GetComponentsInChildren<Transform>();
+        for (var ac = 0; ac < allChildren.Length; ac++)
+        { //var child : Transform in allChildren
+            print("Removing old text modules");
+            Destroy(allChildren[ac].gameObject);
+        }
+        Destroy(Root.gameObject);
+    }
     public void MoveRoutine()
     {
         var next_point = PointQueue.Dequeue();
@@ -22,11 +33,17 @@ public class Enemy : MonoBehaviour
         else
             transform.rotation = Quaternion.Euler(new Vector3(0,180,0));
 
-        transform.DOMove(next_point.transform.position, Vector3.Distance(next_point.transform.position, transform.position) / Speed)
+        transform.DOMoveX(next_point.transform.position.x, Vector3.Distance(next_point.transform.position, transform.position) / Speed)
+                .SetAutoKill(true)
                 .OnComplete(() => { MoveRoutine(); });
 
     }
-    void Start()
+
+    public void OnDestroy()
+    {
+        transform.DOKill();
+    }
+    public virtual void Start()
     {
         foreach (var point in PointList)
         {

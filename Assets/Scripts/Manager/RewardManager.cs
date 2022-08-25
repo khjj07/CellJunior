@@ -6,10 +6,11 @@ public class RewardManager : Singleton<RewardManager>
 {
     public List<Part> PartList = new List<Part>();
     public List<Reward> RewardList = new List<Reward>();
+    public List<Part> PartPool;
     // Start is called before the first frame update
     public void RandomizeReward()
     {
-        List<Part> PartPool = new List<Part>();
+        PartPool = new List<Part>();
         foreach (var k in PartList)
         {
             PartPool.Add(k);

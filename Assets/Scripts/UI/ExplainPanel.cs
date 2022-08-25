@@ -4,7 +4,7 @@ using UnityEngine;
 using UniRx.Triggers;
 using UniRx;
 
-public class ExplainPanel : MonoBehaviour
+public class ExplainPanel : Singleton<ExplainPanel>
 {
     public float Offset = 160f;
     // Start is called before the first frame update

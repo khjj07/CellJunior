@@ -4,8 +4,5 @@ using UnityEngine;
 
 public class RewardState : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        RewardManager.instance.RandomizeReward();
-    }
+ 
 }

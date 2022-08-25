@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2324911735792679019}
   - component: {fileID: 2324911735792679017}
   m_Layer: 0
-  m_Name: GunArm
+  m_Name: GunArmC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,11 @@ MonoBehaviour:
   ArmOutSec: 1
   ArmOutAnimateDuration: 0.3
   ArmOutRange: 0.5
-  Bullet: {fileID: 0}
+  AttackKey: 0
+  Bullet: {fileID: 3997532721715136245, guid: 6a92f5618fc1adf479693bc164529920, type: 3}
+  MaxDistance: 100
+  BulletSpeed: 50
+  Muzzle: {fileID: 1706855370133167549}
 --- !u!1 &4643725569796786883
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,7 +332,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: a3d1270c83467594b8c115769b8c3771, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0.3102684, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 1
   m_DrawMode: 0

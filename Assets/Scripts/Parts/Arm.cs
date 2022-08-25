@@ -12,13 +12,14 @@ public enum ArmAttackType
 public class Arm : JumpablePart
 {
     //มกวม
+    public bool Out = false;
     [SerializeField]
     private float ArmOutSec=1;
     [SerializeField]
     private float ArmOutAnimateDuration = 0.3f;
     public float ArmOutRange = 0.5f;
     protected ArmAttackType AttackType;
-    private bool Out = false;
+    public KeyCode AttackKey;
 
     public virtual void Attack()
     {
@@ -26,15 +27,19 @@ public class Arm : JumpablePart
     }
     public void ArmIn()
     {
-        Out = false;
-        transform.DOLocalMoveX(transform.localPosition.x-ArmOutRange, ArmOutAnimateDuration);
+        transform.DOLocalMoveX(transform.localPosition.x - ArmOutRange, ArmOutAnimateDuration)
+            .OnComplete(() => {Out = false; });
     }
 
     public void ArmOut()
     {
-        Out = true;
-        transform.DOLocalMoveX(transform.localPosition.x + ArmOutRange, ArmOutAnimateDuration)
-            .OnComplete(() => { ArmIn(); });
+        if(!Out)
+        {
+            Out = true;
+            transform.DOLocalMoveX(transform.localPosition.x + ArmOutRange, ArmOutAnimateDuration)
+                      .OnComplete(() => { ArmIn(); });
+        }
+      
     }
 
     public void TryJump()

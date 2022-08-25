@@ -31,13 +31,14 @@ public class Player : Singleton<Player>, IMovable
     [SerializeField]
     private GameObject Body;
     public Arm BothArm;
-    public Leg BothLeg;
     public Core PlayerCore;
     public void Attack()
     {
-        BothArm.Attack();
+        if(BothArm)
+            BothArm.Attack();
+
     }
-    public void Equip(Part newPart)
+    public void Equip(Part newPart,KeyCode attackkey)
     {
         var instance = Instantiate(newPart.gameObject);
         instance.transform.parent = transform.GetChild(0).transform;
@@ -51,13 +52,7 @@ public class Player : Singleton<Player>, IMovable
             instance.transform.rotation = Quaternion.Euler(Vector3.zero);
             instance.transform.localPosition = new Vector3(0, 0, 0);
             BothArm = (Arm)newPart;
-        }
-        else if (newPart.Type == PartType.Leg)
-        {
-            transform.Translate(new Vector3(0, 1, 0));
-            instance.transform.localPosition = new Vector3(0, -0.6f, 0);
-            instance.transform.rotation = Quaternion.Euler(Vector3.zero);
-            BothLeg = (Leg)newPart;
+            BothArm.AttackKey = attackkey;
         }
         else if (newPart.Type == PartType.Core)
         {
@@ -70,16 +65,14 @@ public class Player : Singleton<Player>, IMovable
 
     public void TryJump()
     {
-        if (BothLeg)
-            BothLeg.TryJump();
-        else if (BothArm)
+        if (BothArm)
             BothArm.TryJump();
     }
 
     public void Jump(Vector2 direction)
     {
         
-        JumpablePart part = BothLeg ? BothLeg : BothArm ? BothArm : null;
+        JumpablePart part = BothArm ? BothArm : null;
         Debug.Log(direction);
         if (part)
             GetComponent<Rigidbody2D>().AddForce(direction* part.JumpPower, ForceMode2D.Impulse);
@@ -92,7 +85,7 @@ public class Player : Singleton<Player>, IMovable
 
     public void Move(int direction)
     {
-       if(!BothLeg && GroundContact)
+       if(GroundContact)
        {
             if (Direction.Left == (Direction)direction)
             {
@@ -121,14 +114,12 @@ public class Player : Singleton<Player>, IMovable
     // Start is called before the first frame update
     public void Initialize()
     {
-        if (!BothLeg && BothArm)
-            BothArm.Jump.Subscribe(direction => Jump(direction));
-        if(BothLeg)
+        if(BothArm)
         {
-            var JumpEvent = new UnityEvent();
-            JumpEvent.AddListener(() => TryJump());
-            GetComponent<KeyInputModule>().InputCollection.Add(new KeyEventStruct(BothLeg.JumpKey, InputKind.KeyDown, JumpEvent));
-            BothLeg.Jump.Subscribe(direction => Jump(direction));
+            BothArm.Jump.Subscribe(direction => Jump(direction));
+            var AttackEvent = new UnityEvent();
+            AttackEvent.AddListener(() => Attack());
+            GetComponent<KeyInputModule>().InputCollection.Add(new KeyEventStruct(BothArm.AttackKey, InputKind.KeyDown, AttackEvent));
         }
     }
 
@@ -183,7 +174,7 @@ public class Player : Singleton<Player>, IMovable
     // Update is called once per frame
     void Update()
     {
-        float length = BothLeg ? 1f + BothLeg.LegLength : 1f;
+        float length = 1f;
         RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.down, length);
         if (hit[0])
         {

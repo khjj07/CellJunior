@@ -2,15 +2,11 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class Button : MonoBehaviour,IPointerDownHandler,IPointerEnterHandler,IPointerExitHandler
+public class Button : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler
 {
     private Sequence ScaleSquence;
-    public UnityEvent ClickEvent;
-    public UnityEvent EnterEvent;
-    public UnityEvent ExitEvent;
 
     private void Start()
     {
@@ -25,15 +21,15 @@ public class Button : MonoBehaviour,IPointerDownHandler,IPointerEnterHandler,IPo
         ScaleSquence.Kill();
     }
 
-    public void OnPointerDown(PointerEventData pointerEventData)
+    public void OnPointerClick(PointerEventData pointerEventData)
     {
         ScaleSquence.Kill();
-        ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() => ClickEvent.Invoke()));
+        ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f));
     }
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {
-        EnterEvent.Invoke();
+ 
         ScaleSquence.Kill();
         ScaleSquence.Append(transform.DOScale(new Vector3(1.2f, 1.2f, 1.2f), 0.1f));
     }
@@ -41,7 +37,7 @@ public class Button : MonoBehaviour,IPointerDownHandler,IPointerEnterHandler,IPo
     //Detect when Cursor leaves the GameObject
     public void OnPointerExit(PointerEventData pointerEventData)
     {
-        ExitEvent.Invoke();
+
         ScaleSquence.Kill();
         ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f));
     }

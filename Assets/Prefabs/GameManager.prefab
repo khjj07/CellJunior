@@ -59,11 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PartList:
-  - {fileID: 0}
-  - {fileID: -83967671228471267, guid: eee69f1313508554abbc1512235ed2f5, type: 3}
-  - {fileID: 0}
-  - {fileID: 3119771011607328274, guid: 5c25d77db08ef3246be8278bdbd3d315, type: 3}
+  - {fileID: 2324911735792679017, guid: 6a9414f053450b94094e6545c26f3794, type: 3}
+  - {fileID: 2324911735792679017, guid: 929ff9a05df97014c8ee8276349eaaae, type: 3}
+  - {fileID: 2324911735792679017, guid: 5f4988122cc38624285b31753f6ccd7f, type: 3}
+  - {fileID: 2324911735792679017, guid: 61d8eb33a56f4744c94044d1910d0fcf, type: 3}
+  - {fileID: 2324911735792679017, guid: bf407de7f50df2449b949228909436e3, type: 3}
+  - {fileID: 2324911735792679017, guid: fafadfabc7e997f4c9450939dd6e081d, type: 3}
   RewardList:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  PartPool: []
