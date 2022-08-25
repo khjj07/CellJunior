@@ -6,13 +6,23 @@ using System;
 using UniRx;
 using UnityEngine.Events;
 using UniRx.Triggers;
+using UnityEditor.Experimental.GraphView;
 
 public class Player : Singleton<Player>, IMovable
 {
 
     //능력치
-    public float MaxHP = 100f;
-    public float Speed = 1f;
+    public int MaxHP = 5;
+    public ReactiveProperty<int> HP;
+    public float Speed = 5f;
+    public float RollSpeed = 3f;
+    private bool Movable = true;
+    public float InvincibilityDuration = 0.5f;
+    public float StiffnessDuration = 0.2f;
+    
+    private bool Invincibility = false;
+    public Subject<int> Hit;
+    public Subject<Vector3> Stiffness;
     //물리
     public float LandFriction = 0.1f;
     public float AirFriction = 0.01f;
@@ -75,12 +85,11 @@ public class Player : Singleton<Player>, IMovable
         JumpablePart part = BothLeg ? BothLeg : LeftArm ? LeftArm : null;
         if(part)
             GetComponent<Rigidbody2D>().AddForce(direction* part.JumpPower, ForceMode2D.Impulse);
-        Debug.Log(direction);
     }
 
     public void Roll(int direction)
     {
-        Body.transform.Rotate(new Vector3(0, 0, 1) * 180 * direction * Time.deltaTime*Speed);
+        Body.transform.Rotate(new Vector3(0, 0, 1) * 180 * direction * Time.deltaTime*RollSpeed);
     }
 
     public void Move(int direction)
@@ -100,10 +109,10 @@ public class Player : Singleton<Player>, IMovable
        {
 
        }
-        if (Direction.Left == (Direction)direction && GroundContact)
-            Velocity = Vector3.left * Time.deltaTime * Speed;
-        else if (Direction.Right == (Direction)direction && GroundContact)
-            Velocity = Vector3.right * Time.deltaTime * Speed;
+            if (Direction.Left == (Direction)direction && GroundContact)
+                Velocity = Vector3.left * Time.deltaTime * Speed;
+            else if (Direction.Right == (Direction)direction && GroundContact)
+                Velocity = Vector3.right * Time.deltaTime * Speed;
     }
 
     public void Move(Direction direction)
@@ -126,12 +135,41 @@ public class Player : Singleton<Player>, IMovable
             
             
     }
+
+    public IEnumerator InvincibilityTime()
+    {
+        Invincibility = true;
+        yield return new WaitForSeconds(InvincibilityDuration);
+        Invincibility = false;
+    }
+    public IEnumerator Stiff(Vector3 force)
+    {
+        Movable = false;
+        yield return new WaitForSeconds(StiffnessDuration);
+        GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+        Movable = true;
+    }
+    public void Damaged(int dmg)
+    {
+        HP.Value-=dmg;
+        HP.Value = HP.Value > 0 ? HP.Value : 0;
+        StartCoroutine(InvincibilityTime());
+    }
     void Start()
     {
         Initialize();
+        HP.Value = MaxHP;
+        Hit = new Subject<int>();
+        Hit.Where(_ => !(Invincibility))
+           .Subscribe(x=>Damaged(x));
+
+        Stiffness = new Subject<Vector3>();
+        Stiffness.Where(_ => !(Invincibility))
+            .Subscribe(x => StartCoroutine(Stiff(x)));
         //movement
+
         this.UpdateAsObservable()
-            .Where(_ => Velocity.magnitude > 0)
+            .Where(_ => Velocity.magnitude > 0 && Movable)
             .Subscribe(_ => transform.Translate(Velocity));
 
         this.UpdateAsObservable()
