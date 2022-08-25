@@ -17,15 +17,16 @@ public class Button : MonoBehaviour,IPointerDownHandler,IPointerEnterHandler,IPo
     {
         ScaleSquence.Restart();
     }
+    void OnDestroy()
+    {
+        ScaleSquence.Kill();
+    }
 
     public void OnPointerDown(PointerEventData pointerEventData)
     {
-        ClickEvent.Invoke();
         ScaleSquence.Kill();
-        ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f));
-        IngameStateManager.instance.Change(null);
+        ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f).OnComplete(() => ClickEvent.Invoke()));
     }
-
 
     public void OnPointerEnter(PointerEventData pointerEventData)
     {

@@ -31,11 +31,13 @@ public class Player : Singleton<Player>, IMovable
     //ÆÄÃ÷
     [SerializeField]
     private GameObject Body;
-    public Arm LeftArm;
-    public Arm RightArm;
+    public Arm BothArm;
     public Leg BothLeg;
     public Core PlayerCore;
-
+    public void Attack()
+    {
+        BothArm.Attack();
+    }
     public void Equip(Part newPart)
     {
         var instance = Instantiate(newPart.gameObject);
@@ -45,16 +47,10 @@ public class Player : Singleton<Player>, IMovable
 
 
          newPart = instance.GetComponent<Part>();
-        if (newPart.Type == PartType.Arm && LeftArm)
+        if (newPart.Type == PartType.Arm )
         {
             instance.transform.localPosition = new Vector3(0.7f, 0, 0);
-            RightArm = (Arm)newPart;
-        }
-        else if (newPart.Type == PartType.Arm)
-        {
-            instance.transform.rotation = Quaternion.Euler(new Vector3(0,0,90));
-            instance.transform.localPosition = new Vector3(0.7f, 0, 0);
-            LeftArm = (Arm)newPart;
+            BothArm = (Arm)newPart;
         }
         else if (newPart.Type == PartType.Leg)
         {
@@ -76,13 +72,13 @@ public class Player : Singleton<Player>, IMovable
     {
         if (BothLeg)
             BothLeg.TryJump();
-        else if (LeftArm)
-            LeftArm.TryJump();
+        else if (BothArm)
+            BothArm.TryJump();
     }
 
     public void Jump(Vector2 direction)
     {
-        JumpablePart part = BothLeg ? BothLeg : LeftArm ? LeftArm : null;
+        JumpablePart part = BothLeg ? BothLeg : BothArm ? BothArm : null;
         if(part)
             GetComponent<Rigidbody2D>().AddForce(direction* part.JumpPower, ForceMode2D.Impulse);
     }
@@ -123,8 +119,8 @@ public class Player : Singleton<Player>, IMovable
     // Start is called before the first frame update
     public void Initialize()
     {
-        if (!BothLeg && LeftArm)
-            LeftArm.Jump.Subscribe(direction => Jump(direction));
+        if (!BothLeg && BothArm)
+            BothArm.Jump.Subscribe(direction => Jump(direction));
         if(BothLeg)
         {
             var JumpEvent = new UnityEvent();
@@ -132,8 +128,6 @@ public class Player : Singleton<Player>, IMovable
             GetComponent<KeyInputModule>().InputCollection.Add(new KeyEventStruct(BothLeg.JumpKey, InputKind.KeyDown, JumpEvent));
             BothLeg.Jump.Subscribe(direction => Jump(direction));
         }
-            
-            
     }
 
     public IEnumerator InvincibilityTime()
@@ -145,15 +139,15 @@ public class Player : Singleton<Player>, IMovable
     public IEnumerator Stiff(Vector3 force)
     {
         Movable = false;
-        yield return new WaitForSeconds(StiffnessDuration);
         GetComponent<Rigidbody2D>().AddForce(force, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(StiffnessDuration);
         Movable = true;
     }
     public void Damaged(int dmg)
     {
+        StartCoroutine(InvincibilityTime());
         HP.Value-=dmg;
         HP.Value = HP.Value > 0 ? HP.Value : 0;
-        StartCoroutine(InvincibilityTime());
     }
     void Start()
     {

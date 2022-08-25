@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 829398646926195845}
   - component: {fileID: 829398646926195847}
   m_Layer: 0
-  m_Name: Manager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,9 +59,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PartList:
-  - {fileID: 2324911735792679017, guid: 6a9414f053450b94094e6545c26f3794, type: 3}
-  - {fileID: 3119771011607328274, guid: 5c25d77db08ef3246be8278bdbd3d315, type: 3}
-  - {fileID: 3119771011607328274, guid: 5c25d77db08ef3246be8278bdbd3d315, type: 3}
+  - {fileID: 0}
+  - {fileID: -83967671228471267, guid: eee69f1313508554abbc1512235ed2f5, type: 3}
+  - {fileID: 0}
   - {fileID: 3119771011607328274, guid: 5c25d77db08ef3246be8278bdbd3d315, type: 3}
   RewardList:
   - {fileID: 0}
