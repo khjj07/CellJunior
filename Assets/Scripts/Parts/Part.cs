@@ -12,11 +12,6 @@ public enum PartType
 public class Part : MonoBehaviour
 {
     public PartType Type = PartType.Arm;
-
-    public Part()
-    {
-      
-    }
     // Start is called before the first frame update
     void Start()
     {

@@ -5,6 +5,7 @@ using DG.Tweening;
 using System;
 using UniRx;
 using UnityEngine.Events;
+using UniRx.Triggers;
 
 public class Player : Singleton<Player>, IMovable
 {
@@ -12,7 +13,11 @@ public class Player : Singleton<Player>, IMovable
     //능력치
     public float MaxHP = 100f;
     public float Speed = 1f;
-
+    //물리
+    public float LandFriction = 0.1f;
+    public float AirFriction = 0.01f;
+    private Vector3 Velocity = Vector3.zero;
+    private bool GroundContact = false;
     //파츠
     [SerializeField]
     private GameObject Body;
@@ -24,18 +29,36 @@ public class Player : Singleton<Player>, IMovable
     public void Equip(Part newPart)
     {
         var instance = Instantiate(newPart.gameObject);
-        instance.transform.parent = transform;
+        instance.transform.parent = transform.GetChild(0).transform;
+        transform.GetChild(0).transform.rotation = Quaternion.Euler(Vector3.zero);
         //세부조정
 
-        newPart = instance.GetComponent<Part>();
+
+         newPart = instance.GetComponent<Part>();
         if (newPart.Type == PartType.Arm && LeftArm)
+        {
+            instance.transform.localPosition = new Vector3(0.7f, 0, 0);
             RightArm = (Arm)newPart;
+        }
         else if (newPart.Type == PartType.Arm)
+        {
+            instance.transform.rotation = Quaternion.Euler(new Vector3(0,0,90));
+            instance.transform.localPosition = new Vector3(0.7f, 0, 0);
             LeftArm = (Arm)newPart;
+        }
         else if (newPart.Type == PartType.Leg)
+        {
+            transform.Translate(new Vector3(0, 1, 0));
+            instance.transform.localPosition = new Vector3(0, -0.6f, 0);
+            instance.transform.rotation = Quaternion.Euler(Vector3.zero);
             BothLeg = (Leg)newPart;
+        }
         else if (newPart.Type == PartType.Core)
+        {
+            instance.transform.localPosition = new Vector3(0, 0, 0);
             PlayerCore = (Core)newPart;
+        }
+        Initialize();
 
     }
 
@@ -62,7 +85,7 @@ public class Player : Singleton<Player>, IMovable
 
     public void Move(int direction)
     {
-       if(!BothLeg)
+       if(!BothLeg && GroundContact)
        {
             if (Direction.Left == (Direction)direction)
             {
@@ -77,14 +100,10 @@ public class Player : Singleton<Player>, IMovable
        {
 
        }
-        if (Direction.Left == (Direction)direction)
-        {
-            transform.Translate(Vector3.left * Time.deltaTime * Speed);
-        }
-        else if (Direction.Right == (Direction)direction)
-        {
-            transform.Translate(Vector3.right * Time.deltaTime * Speed);
-        }
+        if (Direction.Left == (Direction)direction && GroundContact)
+            Velocity = Vector3.left * Time.deltaTime * Speed;
+        else if (Direction.Right == (Direction)direction && GroundContact)
+            Velocity = Vector3.right * Time.deltaTime * Speed;
     }
 
     public void Move(Direction direction)
@@ -110,11 +129,46 @@ public class Player : Singleton<Player>, IMovable
     void Start()
     {
         Initialize();
+        //movement
+        this.UpdateAsObservable()
+            .Where(_ => Velocity.magnitude > 0)
+            .Subscribe(_ => transform.Translate(Velocity));
+
+        this.UpdateAsObservable()
+            .Where(_ => Velocity.magnitude > 0 && GroundContact)
+            .Subscribe(_ => Velocity=Velocity-LandFriction*Velocity);
+
+        this.UpdateAsObservable()
+            .Where(_ => Velocity.magnitude > 0 && !GroundContact)
+            .Subscribe(_ => Velocity = Velocity - AirFriction * Velocity);
+
+
     }
 
+    
     // Update is called once per frame
     void Update()
     {
-        
+        float length = BothLeg ? 1f + BothLeg.LegLength : 1f;
+        RaycastHit2D[] hit = Physics2D.RaycastAll(transform.position, Vector2.down, length);
+        if (hit[0])
+        {
+            foreach (var h in hit)
+            {
+                if (h.collider.tag == "Ground")
+                {
+                    GroundContact = true;
+                    break;
+                }
+                else
+                {
+                    GroundContact = false;
+                }
+            }
+        }
+        else
+        {
+            GroundContact = false;
+        }
     }
 }

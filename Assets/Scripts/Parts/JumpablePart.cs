@@ -5,6 +5,7 @@ using UniRx;
 
 public class JumpablePart : Part
 {
+ 
     public float JumpPower = 5f;
     public KeyCode JumpKey = KeyCode.Space;
     public Subject<Vector2> Jump = new Subject<Vector2>();

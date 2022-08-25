@@ -19,7 +19,10 @@ public class GameStateManager : Singleton<GameStateManager>
 
     public void Change(GameState newState)
     {
-        currentState.OnStateExit();
+        if (currentState != null)
+        {
+            currentState.OnStateExit();
+        }
         currentState = newState;
 
         if (currentState != null)

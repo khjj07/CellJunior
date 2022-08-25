@@ -9,7 +9,11 @@ public class RewardManager : Singleton<RewardManager>
     // Start is called before the first frame update
     public void RandomizeReward()
     {
-        List<Part> PartPool= PartList.ConvertAll(o => new Part(o.Type));
+        List<Part> PartPool = new List<Part>();
+        foreach (var k in PartList)
+        {
+            PartPool.Add(k);
+        }
 
         foreach (var k in RewardList)
         {

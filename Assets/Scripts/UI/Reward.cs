@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 using UniRx;
 
-public class Reward : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
+public class Reward : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler
 {
     public Part RewardPart;
     public KeyCode InteractKey;
@@ -21,9 +21,11 @@ public class Reward : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, 
         ScaleSquence.Restart();
     }
   
-    public void OnPointerClick(PointerEventData pointerEventData)
+    public void OnPointerDown(PointerEventData pointerEventData)
     {
         Player.instance.Equip(RewardPart);
+        ScaleSquence.Kill();
+        ScaleSquence.Append(transform.DOScale(new Vector3(1, 1, 1), 0.1f));
         IngameStateManager.instance.Change(null);
     }
     public void OnPointerEnter(PointerEventData pointerEventData)

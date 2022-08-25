@@ -30,4 +30,8 @@ public class GameState : MonoBehaviour
     {
         GameStateManager.instance.Change(newState);
     }
+    public void Start()
+    {
+        gameObject.SetActive(false);
+    }
 }

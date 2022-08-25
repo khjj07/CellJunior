@@ -11,12 +11,6 @@ public enum ArmAttackType
 
 public class Arm : JumpablePart
 {
-
-    public Arm(PartType type)
-    {
-        this.Type = type;
-    }
-
     //มกวม
     [SerializeField]
     private float ArmOutSec=1;
@@ -57,6 +51,10 @@ public class Arm : JumpablePart
         }
 
 
+    }
+    public void Start()
+    {
+        Type = PartType.Arm;
     }
     public void Update()
     {

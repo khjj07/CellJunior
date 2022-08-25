@@ -5,13 +5,7 @@ using UniRx;
 using UnityEngine.Events;
 public class Leg : JumpablePart
 {
-    [SerializeField]
-    private float LegLength = 0.6f;
-
-    public Leg(PartType type)
-    {
-        this.Type = type;
-    }
+    public float LegLength = 0.6f;
 
     public void TryJump()
     {
@@ -35,11 +29,11 @@ public class Leg : JumpablePart
         }
     }
 
-   
+
     // Start is called before the first frame update
-    void Start()
+    public void Start()
     {
-       
+        Type = PartType.Leg;
     }
 
     // Update is called once per frame
