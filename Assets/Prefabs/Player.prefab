@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175cb20224753ae44983dcbe4d3e5a8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHP: 100
+  MaxHP: 5
   HP:
     value: 0
   Speed: 5

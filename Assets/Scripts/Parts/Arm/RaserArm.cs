@@ -8,7 +8,7 @@ public class RaserArm : Arm, IAttackable
     {
         AttackType = ArmAttackType.RangedAttack;
     }
-    public void Attack()
+    public override void Attack()
     {
 
     }
